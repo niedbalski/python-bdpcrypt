@@ -61,12 +61,12 @@ class   BDPCrypter:
     def crypt(self, encrypt=False):
         try:
             with open(self.outfile, "awb") as file:
+                if encrypt:
+                    self.hex_array.reverse()
                 for block in self.read_blocks():
-                    if encrypt:
-                        self.hex_array.reverse()
                     file.write(struct.pack('B', self.hex_array[block]))
         except Exception as e:
-            raise BDPCrypterException("Cannot create decrypted file %s" %
+            raise BDPCrypterException("Cannot create output file %s" %
                 self.outfile)
 
 def parse_options():
@@ -98,13 +98,20 @@ def parse_options():
     return options
 
 def main():
-    options = parse_options()
     
+    options = parse_options()
+
     try:
+        if not ( options.source and options.destination ):
+            raise Exception("-t and -s files must be defined")
+
+        if not ( options.encrypt or options.decrypt ):
+            raise Exception("-e or -d operation must be specified")
+
         crypter = BDPCrypter(options.source, options.destination)
         crypter.crypt(options.encrypt)
 
-    except BDPCrypterException:
+    except Exception:
         raise
 
 if __name__ == "__main__":
