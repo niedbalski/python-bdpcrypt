@@ -58,11 +58,11 @@ class   BDPCrypter:
                 for i in range(0, block.__len__()):
                     yield(ord(block[i]))
 
-    def crypt(self, decrypt=False):
+    def crypt(self, encrypt=False):
         try:
             with open(self.outfile, "awb") as file:
                 for block in self.read_blocks():
-                    if decrypt:
+                    if encrypt:
                         self.hex_array.reverse()
                     file.write(struct.pack('B', self.hex_array[block]))
         except Exception as e:
@@ -102,7 +102,7 @@ def main():
     
     try:
         crypter = BDPCrypter(options.source, options.destination)
-        crypter.crypt(options.decrypt)
+        crypter.crypt(options.encrypt)
 
     except BDPCrypterException:
         raise
