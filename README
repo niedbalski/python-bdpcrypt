@@ -1,0 +1,13 @@
+*** Educational Software ***
+
+- Sony BDP Firmware Decrypter . ( Based on RichDevX & SeRoCuLtO v0.1 )
+ 
+*** Usage ***
+
+Decrypt:
+
+./py-bdpcrypt.py -s FW-CRYPTED.BIN -t FW-DECRYPTED.IMG -d true
+
+Encrypt:
+
+./py-bdpcrypt.py -s FW-DECRYPTED.IMG -t FW-ENCRYPTED.BIN -e true
