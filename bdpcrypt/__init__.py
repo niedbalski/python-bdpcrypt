@@ -3,10 +3,10 @@
 import struct
 import os
 
-from optparse import OptionParser
 
 class   BDPCrypterException(Exception):
     pass
+
 
 class   BDPCrypter:
 
@@ -48,7 +48,7 @@ class   BDPCrypter:
 
         except Exception as e:
             raise BDPCrypterException("%s" % e)
-            
+
     def read_blocks(self, block_size = default_block_size):
         with open(self.infile, "rb") as file:
             while True:
@@ -68,51 +68,3 @@ class   BDPCrypter:
         except Exception as e:
             raise BDPCrypterException("Cannot create output file %s" %
                 self.outfile)
-
-def parse_options():
-
-    parser = OptionParser()
-    parser.add_option("-d",
-                      "--decrypt",
-                      default=False,
-                      help="Decrypt given file into destination",
-                      dest="decrypt")
-
-    parser.add_option("-e",
-                      "--encrypt",
-                      default=False,
-                      help="Encrypt given file into destination",
-                      dest="encrypt")
-
-    parser.add_option("-s",
-                      "--source-file",
-                      help="File to encrypt/decrypt from",
-                      dest="source")
-
-    parser.add_option("-t",
-                      "--destination-file",
-                      help="File to encrypt/decrypt to",
-                      dest="destination")
-
-    options, args = parser.parse_args()
-    return options
-
-def main():
-    
-    options = parse_options()
-
-    try:
-        if not ( options.source and options.destination ):
-            raise Exception("-t and -s files must be defined")
-
-        if not ( options.encrypt or options.decrypt ):
-            raise Exception("-e or -d operation must be specified")
-
-        crypter = BDPCrypter(options.source, options.destination)
-        crypter.crypt(options.encrypt)
-
-    except Exception:
-        raise
-
-if __name__ == "__main__":
-    main()
